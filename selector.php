@@ -94,6 +94,25 @@ class SelectorField extends BaseField
     protected $size = 'auto';
 
     /**
+     * Display mode (list/grid).
+     *
+     * @var string
+     * @since 1.6.0
+     */
+    protected $display = 'list';
+
+    /**
+     * Thumbnail resolution
+     *
+     * @var string
+     * @since 1.6.0
+     */
+    protected $thumbSizes = array(
+        'list'  => 48,
+        'grid'  => 128,
+    );
+
+    /**
      * Option default values.
      *
      * @var array
@@ -103,6 +122,7 @@ class SelectorField extends BaseField
         'mode'    => 'single',
         'options' => 'all',
         'size'    => 'auto',
+        'display' => 'list',
     );
 
     /**
@@ -132,6 +152,10 @@ class SelectorField extends BaseField
             'last',
             'all',
         ),
+        'display' => array(
+            'list',
+            'grid'
+        )
     );
 
     /**
@@ -218,6 +242,13 @@ class SelectorField extends BaseField
                 if (!is_numeric($value)) {
                     $this->size = $this->defaultValues['size'];
                 }
+                break;
+
+            case 'display':
+                if (!in_array($value, $this->validValues['display'])) {
+                    $this->display = $this->defaultValues['display'];
+                }
+                break;
         }
     }
 
@@ -276,8 +307,11 @@ class SelectorField extends BaseField
      */
     public function content()
     {
+        $template = __DIR__ . DS . 'template.' . $this->display . '.php';
+
         $wrapper = new Brick('div');
         $wrapper->addClass('selector');
+        $wrapper->addClass('display-' . $this->display);
         $wrapper->data(array(
             'field'      => 'selector',
             'name'       => $this->name(),
@@ -286,7 +320,7 @@ class SelectorField extends BaseField
             'autoselect' => $this->autoselect(),
             'size'       => $this->size,
         ));
-        $wrapper->html(tpl::load(__DIR__ . DS . 'template.php', array('field' => $this)));
+        $wrapper->html(tpl::load($template, array('field' => $this)));
 
         return $wrapper;
     }
@@ -442,4 +476,27 @@ class SelectorField extends BaseField
     {
         return $this->types;
     }
+
+    /**
+     * Return the thumbnail size for a given display mode
+     *
+     * @since  1.6.0
+     * @return array
+     */
+    public function thumbSize()
+    {
+        return $this->thumbSizes[$this->display];
+    }
+
+    /**
+     * Return true if displayed as a grid
+     *
+     * @since  1.6.0
+     * @return array
+     */
+    public function displayAsGrid()
+    {
+        return $this->display == 'grid';
+    }
+
 }
