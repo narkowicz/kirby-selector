@@ -99,6 +99,7 @@
     .selector.display-grid .item {
         float: left;
         width: 20%;
+        max-width: 150px;
     }
 
     .selector.display-grid .item-content {
@@ -133,3 +134,15 @@
                 line-height: 1.3em;
                 text-overflow: ellipsis;
             }
+
+
+/* Responsive grid adaptations */
+
+@media screen and (min-width: 50em) and (max-width: 60em) {
+
+    .selector.display-grid .item {
+        width: 25%;
+    }
+
+}
+

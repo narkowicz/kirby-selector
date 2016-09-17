@@ -109,7 +109,7 @@ class SelectorField extends BaseField
      */
     protected $thumbSizes = array(
         'list'  => 48,
-        'grid'  => 128,
+        'grid'  => 150,
     );
 
     /**
