@@ -94,6 +94,25 @@ class SelectorField extends BaseField
     protected $size = 'auto';
 
     /**
+     * Display mode (list/grid).
+     *
+     * @var string
+     * @since 1.6.0
+     */
+    protected $display = 'list';
+
+    /**
+     * Thumbnail resolution
+     *
+     * @var string
+     * @since 1.6.0
+     */
+    protected $thumbSizes = array(
+        'list'  => 48,
+        'grid'  => 150,
+    );
+
+    /**
      * Option default values.
      *
      * @var array
@@ -103,6 +122,7 @@ class SelectorField extends BaseField
         'mode'    => 'single',
         'options' => 'all',
         'size'    => 'auto',
+        'display' => 'list',
     );
 
     /**
@@ -132,6 +152,10 @@ class SelectorField extends BaseField
             'last',
             'all',
         ),
+        'display' => array(
+            'list',
+            'grid'
+        )
     );
 
     /**
@@ -218,6 +242,13 @@ class SelectorField extends BaseField
                 if (!is_numeric($value)) {
                     $this->size = $this->defaultValues['size'];
                 }
+                break;
+
+            case 'display':
+                if (!in_array($value, $this->validValues['display'])) {
+                    $this->display = $this->defaultValues['display'];
+                }
+                break;
         }
     }
 
@@ -230,10 +261,16 @@ class SelectorField extends BaseField
      */
     public function label()
     {
-        /* Action button */
-        $action = new Brick('a');
-        $action->addClass('file-add-button label-option');
-        $action->html('<i class="icon icon-left fa fa-plus-circle"></i>' . l('pages.show.files.add'));
+        /* Edit button */
+        $edit = new Brick('a');
+        $edit->addClass('file-edit-button label-option');
+        $edit->html('<i class="icon icon-left fa fa-pencil"></i>' . l('pages.show.files.edit'));
+        $edit->attr('href', $this->page()->url('files'));
+
+        /* Add button */
+        $add = new Brick('a');
+        $add->addClass('file-add-button label-option');
+        $add->html('<i class="icon icon-left fa fa-plus-circle"></i>' . l('pages.show.files.add'));
 
         /**
          * FIX: With Kirby 2.2 the structure of the "Add file" actions changed.
@@ -242,11 +279,17 @@ class SelectorField extends BaseField
          * @since 1.5.0
          */
         if (version_compare(Kirby::version(), '2.2', '>=')) {
-            $action->attr('href', '#upload');
-            $action->data('upload', 'true');
+            $add->attr('href', '#upload');
+            $add->data('upload', 'true');
         } else {
-            $action->attr('href', purl($this->page(), 'upload'));
+            $add->attr('href', purl($this->page(), 'upload'));
         }
+
+        /* Actions container */
+        $actions = new Brick('span');
+        $actions->addClass('hgroup-option-right selector-hgroup-option-right');
+        $actions->append($edit);
+        $actions->append($add);
 
         /* Label */
         $label = parent::label();
@@ -259,7 +302,7 @@ class SelectorField extends BaseField
          */
         if (!is_null($label)) {
             $label->addClass('figure-label');
-            $label->append($action);
+            $label->append($actions);
 
             return $label;
         }
@@ -276,8 +319,11 @@ class SelectorField extends BaseField
      */
     public function content()
     {
+        $template = __DIR__ . DS . 'template.' . $this->display . '.php';
+
         $wrapper = new Brick('div');
         $wrapper->addClass('selector');
+        $wrapper->addClass('display-' . $this->display);
         $wrapper->data(array(
             'field'      => 'selector',
             'name'       => $this->name(),
@@ -286,7 +332,7 @@ class SelectorField extends BaseField
             'autoselect' => $this->autoselect(),
             'size'       => $this->size,
         ));
-        $wrapper->html(tpl::load(__DIR__ . DS . 'template.php', array('field' => $this)));
+        $wrapper->html(tpl::load($template, array('field' => $this)));
 
         return $wrapper;
     }
@@ -442,4 +488,27 @@ class SelectorField extends BaseField
     {
         return $this->types;
     }
+
+    /**
+     * Return the thumbnail size for a given display mode
+     *
+     * @since  1.6.0
+     * @return array
+     */
+    public function thumbSize()
+    {
+        return $this->thumbSizes[$this->display];
+    }
+
+    /**
+     * Return true if displayed as a grid
+     *
+     * @since  1.6.0
+     * @return array
+     */
+    public function displayAsGrid()
+    {
+        return $this->display == 'grid';
+    }
+
 }

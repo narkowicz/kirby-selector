@@ -10,11 +10,11 @@
                         <figure class="item-image">
                             <?php if (version_compare(panel()->version(), '2.2', '>=')): ?>
                                 <a class="btn btn-with-icon" data-context="<?= purl($file, 'context') ?>" href="#options" title="<?= l('pages.show.subpages.edit') ?>">
-                                    <?= thumb($file, array('width' => 48, 'height' => 48, 'crop' => true)) ?>
+                                    <?= thumb($file, array('width' => $field->thumbSize(), 'height' => $field->thumbSize(), 'crop' => true)) ?>
                                 </a>
                             <?php else: ?>
                                 <a class="btn btn-with-icon" href="<?= purl($file, 'show') ?>" title="<?= l('pages.show.subpages.edit') ?>">
-                                    <?= thumb($file, array('width' => 48, 'height' => 48, 'crop' => true)) ?>
+                                    <?= thumb($file, array('width' => $field->thumbSize(), 'height' => $field->thumbSize(), 'crop' => true)) ?>
                                 </a>
                             <?php endif ?>
                         </figure>

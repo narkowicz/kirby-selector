@@ -2,3 +2,4 @@
 
 l::set('selector.empty', 'Nog geen bestanden gevonden.');
 l::set('selector.select', 'Selekteer');
+l::set('selector.options', 'Opties');
