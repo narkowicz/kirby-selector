@@ -261,10 +261,16 @@ class SelectorField extends BaseField
      */
     public function label()
     {
-        /* Action button */
-        $action = new Brick('a');
-        $action->addClass('file-add-button label-option');
-        $action->html('<i class="icon icon-left fa fa-plus-circle"></i>' . l('pages.show.files.add'));
+        /* Edit button */
+        $edit = new Brick('a');
+        $edit->addClass('file-edit-button label-option');
+        $edit->html('<i class="icon icon-left fa fa-pencil"></i>' . l('pages.show.files.edit'));
+        $edit->attr('href', $this->page()->url('files'));
+
+        /* Add button */
+        $add = new Brick('a');
+        $add->addClass('file-add-button label-option');
+        $add->html('<i class="icon icon-left fa fa-plus-circle"></i>' . l('pages.show.files.add'));
 
         /**
          * FIX: With Kirby 2.2 the structure of the "Add file" actions changed.
@@ -273,11 +279,17 @@ class SelectorField extends BaseField
          * @since 1.5.0
          */
         if (version_compare(Kirby::version(), '2.2', '>=')) {
-            $action->attr('href', '#upload');
-            $action->data('upload', 'true');
+            $add->attr('href', '#upload');
+            $add->data('upload', 'true');
         } else {
-            $action->attr('href', purl($this->page(), 'upload'));
+            $add->attr('href', purl($this->page(), 'upload'));
         }
+
+        /* Actions container */
+        $actions = new Brick('span');
+        $actions->addClass('hgroup-option-right selector-hgroup-option-right');
+        $actions->append($edit);
+        $actions->append($add);
 
         /* Label */
         $label = parent::label();
@@ -290,7 +302,7 @@ class SelectorField extends BaseField
          */
         if (!is_null($label)) {
             $label->addClass('figure-label');
-            $label->append($action);
+            $label->append($actions);
 
             return $label;
         }
