@@ -60,6 +60,7 @@
 }
 
 @media screen and (min-width: 50em) and (max-width: 60em) {
+
     .selector .item-options i {
         padding: 0;
     }
@@ -124,29 +125,11 @@
         .selector.display-grid .item-info {
             margin-left: 0 !important;
             padding: 0.5em 0;
-            height: 5em;
+            height: 4.8em;
         }
 
-            .selector.display-grid .item-info .item-options-column {
-                float: left;
-                padding: 0;
-                margin: 0;
+            .selector.display-grid .item-info .item-info-text * {
+                overflow: hidden;
+                line-height: 1.3em;
+                text-overflow: ellipsis;
             }
-
-                .selector.display-grid .item-info .item-options-column li {
-                    padding: 0.2em 0.7em;
-                }
-
-            .selector.display-grid .item-info .item-info-text,
-            .selector.display-grid .item-info .item-info-text *
-            {
-                margin-left: 0;
-                padding-left: 0;
-            }
-
-                .selector.display-grid .item-info .item-info-text * {
-                    overflow: hidden;
-                    line-height: 1.3em;
-                    text-overflow: ellipsis;
-                }
-

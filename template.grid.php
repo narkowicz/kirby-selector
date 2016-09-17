@@ -17,24 +17,6 @@
                             </figure>
                         <?php endif ?>
                         <div class="item-info">
-                            <ul class="item-options-column">
-                                <li>
-                                    <a class="btn btn-with-icon [ selector-checkbox js-selector-checkbox ]" href="#" title="<?= l::get('selector.select') ?>">
-                                        <i class="icon icon-left fa fa-circle-o"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <?php if (version_compare(panel()->version(), '2.2', '>=')): ?>
-                                        <a class="btn btn-with-icon" data-context="<?= purl($file, 'context') ?>" href="#options" title="<?= l('selector.options') ?>">
-                                            <i class="icon icon-left fa fa-pencil"></i>
-                                        </a>
-                                    <?php else: ?>
-                                        <a class="btn btn-with-icon" href="<?= purl($file, 'show') ?>" title="<?= l('selector.options') ?>">
-                                            <i class="icon icon-left fa fa-pencil"></i>
-                                        </a>
-                                    <?php endif ?>
-                                </li>
-                            </ul>
                             <div class="item-info-text">
                                 <strong class="item-title">
                                     <?= $file->filename() ?>
