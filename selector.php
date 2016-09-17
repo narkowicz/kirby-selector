@@ -51,7 +51,7 @@ class SelectorField extends BaseField
      * @var string
      * @since 1.1.0
      */
-    protected $sort = 'filename';
+    protected $sort = 'sort';
 
     /**
      * Flip sort order.
@@ -216,7 +216,7 @@ class SelectorField extends BaseField
 
             case 'sort':
                 if (!is_string($value) or empty($value)) {
-                    $this->sort = 'filename';
+                    $this->sort = 'sort';
                 }
                 break;
 
